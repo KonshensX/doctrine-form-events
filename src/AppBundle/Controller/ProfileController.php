@@ -40,16 +40,16 @@ class ProfileController extends Controller
      */
     public function newAction(Request $request)
     {
-        $profile = new Profile();
+        $em = $this->getDoctrine()->getManager();
+        $profile = new Profile($this->container);
         $form = $this->createForm('AppBundle\Form\ProfileType', $profile);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
             $em->persist($profile);
-            $em->flush();
+//            $em->flush();
 
-            return $this->redirectToRoute('profile_show', array('id' => $profile->getId()));
+//            return $this->redirectToRoute('profile_show', array('id' => $profile->getId()));
         }
 
         return $this->render('profile/new.html.twig', array(

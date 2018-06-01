@@ -3,6 +3,9 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Psr\Container\ContainerInterface;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Validator\Constraints\File;
 
 /**
  * Profile
@@ -12,6 +15,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Profile
 {
+
     /**
      * @var int
      *
@@ -155,5 +159,7 @@ class Profile
     {
         return $this->profilePicture;
     }
+
+
 }
 
