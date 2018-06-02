@@ -47,7 +47,6 @@ class __TwigTemplate_d8ebb59beda80722c5666656af89026be94fb1bde74a1345612f53de3f9
 
         // line 4
         echo "    <h1>Profiles list</h1>
-
     <table class=\"table table-striped\">
         <thead>
             <tr>
@@ -61,45 +60,45 @@ class __TwigTemplate_d8ebb59beda80722c5666656af89026be94fb1bde74a1345612f53de3f9
         </thead>
         <tbody>
         ";
-        // line 18
+        // line 17
         $context['_parent'] = $context;
         $context['_seq'] = twig_ensure_traversable(($context["profiles"] ?? $this->getContext($context, "profiles")));
         foreach ($context['_seq'] as $context["_key"] => $context["profile"]) {
-            // line 19
+            // line 18
             echo "            <tr>
                 <td><a href=\"";
-            // line 20
+            // line 19
             echo twig_escape_filter($this->env, $this->env->getExtension('Symfony\Bridge\Twig\Extension\RoutingExtension')->getPath("profile_show", array("id" => $this->getAttribute($context["profile"], "id", array()))), "html", null, true);
             echo "\">";
             echo twig_escape_filter($this->env, $this->getAttribute($context["profile"], "id", array()), "html", null, true);
             echo "</a></td>
                 <td>";
-            // line 21
+            // line 20
             echo twig_escape_filter($this->env, $this->getAttribute($context["profile"], "username", array()), "html", null, true);
             echo "</td>
                 <td>";
-            // line 22
+            // line 21
             echo twig_escape_filter($this->env, $this->getAttribute($context["profile"], "email", array()), "html", null, true);
             echo "</td>
                 <td>";
-            // line 23
+            // line 22
             echo twig_escape_filter($this->env, $this->getAttribute($context["profile"], "fullname", array()), "html", null, true);
             echo "</td>
                 <td>";
-            // line 24
+            // line 23
             echo twig_escape_filter($this->env, $this->getAttribute($context["profile"], "profilePicture", array()), "html", null, true);
             echo "</td>
                 <td>
                     <ul>
                         <li>
                             <a href=\"";
-            // line 28
+            // line 27
             echo twig_escape_filter($this->env, $this->env->getExtension('Symfony\Bridge\Twig\Extension\RoutingExtension')->getPath("profile_show", array("id" => $this->getAttribute($context["profile"], "id", array()))), "html", null, true);
             echo "\">show</a>
                         </li>
                         <li>
                             <a href=\"";
-            // line 31
+            // line 30
             echo twig_escape_filter($this->env, $this->env->getExtension('Symfony\Bridge\Twig\Extension\RoutingExtension')->getPath("profile_edit", array("id" => $this->getAttribute($context["profile"], "id", array()))), "html", null, true);
             echo "\">edit</a>
                         </li>
@@ -111,14 +110,14 @@ class __TwigTemplate_d8ebb59beda80722c5666656af89026be94fb1bde74a1345612f53de3f9
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_iterated'], $context['_key'], $context['profile'], $context['_parent'], $context['loop']);
         $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 37
+        // line 36
         echo "        </tbody>
     </table>
 
     <ul>
         <li>
             <a href=\"";
-        // line 42
+        // line 41
         echo $this->env->getExtension('Symfony\Bridge\Twig\Extension\RoutingExtension')->getPath("profile_new");
         echo "\">Create a new profile</a>
         </li>
@@ -144,7 +143,7 @@ class __TwigTemplate_d8ebb59beda80722c5666656af89026be94fb1bde74a1345612f53de3f9
 
     public function getDebugInfo()
     {
-        return array (  122 => 42,  115 => 37,  103 => 31,  97 => 28,  90 => 24,  86 => 23,  82 => 22,  78 => 21,  72 => 20,  69 => 19,  65 => 18,  49 => 4,  40 => 3,  11 => 1,);
+        return array (  121 => 41,  114 => 36,  102 => 30,  96 => 27,  89 => 23,  85 => 22,  81 => 21,  77 => 20,  71 => 19,  68 => 18,  64 => 17,  49 => 4,  40 => 3,  11 => 1,);
     }
 
     /** @deprecated since 1.27 (to be removed in 2.0). Use getSourceContext() instead */
@@ -161,7 +160,6 @@ class __TwigTemplate_d8ebb59beda80722c5666656af89026be94fb1bde74a1345612f53de3f9
 
 {% block body %}
     <h1>Profiles list</h1>
-
     <table class=\"table table-striped\">
         <thead>
             <tr>

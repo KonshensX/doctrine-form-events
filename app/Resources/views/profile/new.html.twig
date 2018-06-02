@@ -2,9 +2,16 @@
 
 {% block body %}
     <h1>Profile creation</h1>
-
+    {% for message in app.flashes('notice') %}
+        <div class="alert alert-success">
+            <strong>{{ message }}</strong>
+        </div>
+    {% endfor %}
     {{ form_start(form) }}
         {{ form_widget(form) }}
+        <label for="label label-primary">
+            {{ form.vars.value.profilePicture }}
+        </label>
         <input type="submit" value="Create" />
     {{ form_end(form) }}
 

@@ -47,25 +47,47 @@ class __TwigTemplate_916417d96e356113efbe320479b9640f2ef6a3ae1cecd315c0534d5a346
 
         // line 4
         echo "    <h1>Profile creation</h1>
-
     ";
-        // line 6
+        // line 5
+        $context['_parent'] = $context;
+        $context['_seq'] = twig_ensure_traversable($this->getAttribute(($context["app"] ?? $this->getContext($context, "app")), "flashes", array(0 => "notice"), "method"));
+        foreach ($context['_seq'] as $context["_key"] => $context["message"]) {
+            // line 6
+            echo "        <div class=\"alert alert-success\">
+            <strong>";
+            // line 7
+            echo twig_escape_filter($this->env, $context["message"], "html", null, true);
+            echo "</strong>
+        </div>
+    ";
+        }
+        $_parent = $context['_parent'];
+        unset($context['_seq'], $context['_iterated'], $context['_key'], $context['message'], $context['_parent'], $context['loop']);
+        $context = array_intersect_key($context, $_parent) + $_parent;
+        // line 10
+        echo "    ";
         echo         $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->renderBlock(($context["form"] ?? $this->getContext($context, "form")), 'form_start');
         echo "
         ";
-        // line 7
+        // line 11
         echo $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->searchAndRenderBlock(($context["form"] ?? $this->getContext($context, "form")), 'widget');
         echo "
+        <label for=\"label label-primary\">
+            ";
+        // line 13
+        echo twig_escape_filter($this->env, $this->getAttribute($this->getAttribute($this->getAttribute(($context["form"] ?? $this->getContext($context, "form")), "vars", array()), "value", array()), "profilePicture", array()), "html", null, true);
+        echo "
+        </label>
         <input type=\"submit\" value=\"Create\" />
     ";
-        // line 9
+        // line 16
         echo         $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->renderBlock(($context["form"] ?? $this->getContext($context, "form")), 'form_end');
         echo "
 
     <ul>
         <li>
             <a href=\"";
-        // line 13
+        // line 20
         echo $this->env->getExtension('Symfony\Bridge\Twig\Extension\RoutingExtension')->getPath("profile_index");
         echo "\">Back to the list</a>
         </li>
@@ -91,7 +113,7 @@ class __TwigTemplate_916417d96e356113efbe320479b9640f2ef6a3ae1cecd315c0534d5a346
 
     public function getDebugInfo()
     {
-        return array (  69 => 13,  62 => 9,  57 => 7,  53 => 6,  49 => 4,  40 => 3,  11 => 1,);
+        return array (  91 => 20,  84 => 16,  78 => 13,  73 => 11,  68 => 10,  59 => 7,  56 => 6,  52 => 5,  49 => 4,  40 => 3,  11 => 1,);
     }
 
     /** @deprecated since 1.27 (to be removed in 2.0). Use getSourceContext() instead */
@@ -108,9 +130,16 @@ class __TwigTemplate_916417d96e356113efbe320479b9640f2ef6a3ae1cecd315c0534d5a346
 
 {% block body %}
     <h1>Profile creation</h1>
-
+    {% for message in app.flashes('notice') %}
+        <div class=\"alert alert-success\">
+            <strong>{{ message }}</strong>
+        </div>
+    {% endfor %}
     {{ form_start(form) }}
         {{ form_widget(form) }}
+        <label for=\"label label-primary\">
+            {{ form.vars.value.profilePicture }}
+        </label>
         <input type=\"submit\" value=\"Create\" />
     {{ form_end(form) }}
 

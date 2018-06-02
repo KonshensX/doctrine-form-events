@@ -33,6 +33,10 @@ services:
 #        autowire: true
 #        arguments:
 #            $container: '@service_container'
-    AppBundle\Event\ProfileEntitySubscriber:
+    file.manager:
+        class: AppBundle\Manager\FileManager
+
+    AppBundle\Event\GenerateFileSubscriber:
         tags:
-            - { name: 'doctrine.event_listener', event: postLoad }
+            - { name: doctrine.event_subscriber, event: prePersist }
+            - { name: doctrine.event_subscriber, event: preUpdate }

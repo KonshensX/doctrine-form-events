@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Profile
@@ -49,7 +50,10 @@ class Profile
     /**
      * @var string
      *
-     * @ORM\Column(name="profile_picture", type="string", length=255)
+     * @ORM\Column(name="profile_picture", type="string", length=255, nullable=true)
+     * @Assert\File(
+     *     mimeTypes={"image/jpeg", "image/png"}
+     * )
      */
     private $profilePicture;
 

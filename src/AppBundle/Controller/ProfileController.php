@@ -37,6 +37,8 @@ class ProfileController extends Controller
      *
      * @Route("/new", name="profile_new")
      * @Method({"GET", "POST"})
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function newAction(Request $request)
     {
@@ -47,9 +49,9 @@ class ProfileController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em->persist($profile);
-//            $em->flush();
-
-//            return $this->redirectToRoute('profile_show', array('id' => $profile->getId()));
+            $em->flush();
+            $this->addFlash('notice', 'Record was created successfully');
+            return $this->redirectToRoute('profile_show', array('id' => $profile->getId()));
         }
 
         return $this->render('profile/new.html.twig', array(
@@ -63,6 +65,8 @@ class ProfileController extends Controller
      *
      * @Route("/{id}", name="profile_show")
      * @Method("GET")
+     * @param Profile $profile
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function showAction(Profile $profile)
     {
@@ -79,6 +83,9 @@ class ProfileController extends Controller
      *
      * @Route("/{id}/edit", name="profile_edit")
      * @Method({"GET", "POST"})
+     * @param Request $request
+     * @param Profile $profile
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function editAction(Request $request, Profile $profile)
     {
@@ -87,7 +94,9 @@ class ProfileController extends Controller
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($profile);
+            $em->flush();
 
             return $this->redirectToRoute('profile_edit', array('id' => $profile->getId()));
         }
