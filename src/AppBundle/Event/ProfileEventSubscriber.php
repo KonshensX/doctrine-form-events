@@ -41,7 +41,7 @@ class ProfileEventSubscriber implements EventSubscriber
         /// but the preUpdate should handle this
         $file = $args->getEntity()->getProfilePicture();
         $filename = $this->_fileManager->uploadFile($file);
-        $args->getEntity()->setProfilePicture($file);
+        $args->getEntity()->setProfilePicture($filename);
     }
 
     public function postLoad(LifecycleEventArgs $args)
