@@ -17,6 +17,7 @@
       <parameter key="DoctrineBundle">Doctrine\Bundle\DoctrineBundle\DoctrineBundle</parameter>
       <parameter key="SensioFrameworkExtraBundle">Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle</parameter>
       <parameter key="AppBundle">AppBundle\AppBundle</parameter>
+      <parameter key="RandomBundle">RandomBundle\RandomBundle</parameter>
       <parameter key="DebugBundle">Symfony\Bundle\DebugBundle\DebugBundle</parameter>
       <parameter key="WebProfilerBundle">Symfony\Bundle\WebProfilerBundle\WebProfilerBundle</parameter>
       <parameter key="SensioDistributionBundle">Sensio\Bundle\DistributionBundle\SensioDistributionBundle</parameter>
@@ -63,6 +64,11 @@
         <parameter key="parent">null</parameter>
         <parameter key="path">/home/konshensx/doctrine-form-events/src/AppBundle</parameter>
         <parameter key="namespace">AppBundle</parameter>
+      </parameter>
+      <parameter key="RandomBundle" type="collection">
+        <parameter key="parent">null</parameter>
+        <parameter key="path">/home/konshensx/doctrine-form-events/src/RandomBundle</parameter>
+        <parameter key="namespace">RandomBundle</parameter>
       </parameter>
       <parameter key="DebugBundle" type="collection">
         <parameter key="parent">null</parameter>
@@ -515,10 +521,10 @@
       <argument type="service" id="service_container"/>
       <argument type="service" id="AppBundle\Managers\FileManager"/>
     </service>
-    <service id="AppBundle\Event\ProfileEventSubscriber" class="AppBundle\Event\ProfileEventSubscriber" public="false" autowire="true" autoconfigure="true">
-      <tag name="doctrine.event_subscriber" event="prePersist"/>
-      <tag name="doctrine.event_subscriber" event="preUpdate"/>
-      <tag name="doctrine.event_subscriber" event="postLoad"/>
+    <service id="AppBundle\Event\ProfileEventListener" class="AppBundle\Event\ProfileEventListener" public="false" autowire="true" autoconfigure="true">
+      <tag name="doctrine.event_listener" event="preUpdate"/>
+      <tag name="doctrine.event_listener" event="prePersist"/>
+      <tag name="doctrine.event_listener" event="postLoad"/>
       <argument type="service" id="AppBundle\Managers\FileManager"/>
     </service>
     <service id="AppBundle\Form\ProfileType" class="AppBundle\Form\ProfileType" public="false" autowire="true" autoconfigure="true">
@@ -531,6 +537,11 @@
     </service>
     <service id="file.manager" class="AppBundle\Managers\FileManager" public="false" autowire="true" autoconfigure="true">
       <argument type="service" id="service_container"/>
+    </service>
+    <service id="RandomBundle\Event\UserEntitySubscriber" class="RandomBundle\Event\UserEntitySubscriber">
+      <tag name="doctrine.event_listener" event="preUpdate"/>
+      <tag name="doctrine.event_listener" event="postLoad"/>
+      <tag name="doctrine.event_listener" event="prePersist"/>
     </service>
     <service id="controller_name_converter" class="Symfony\Bundle\FrameworkBundle\Controller\ControllerNameParser" public="false">
       <tag name="monolog.logger" channel="request"/>
@@ -2729,6 +2740,14 @@
         <argument>!Doctrine</argument>
       </call>
       <call method="addPath">
+        <argument>/home/konshensx/doctrine-form-events/src/RandomBundle/Resources/views</argument>
+        <argument>Random</argument>
+      </call>
+      <call method="addPath">
+        <argument>/home/konshensx/doctrine-form-events/src/RandomBundle/Resources/views</argument>
+        <argument>!Random</argument>
+      </call>
+      <call method="addPath">
         <argument>/home/konshensx/doctrine-form-events/vendor/symfony/symfony/src/Symfony/Bundle/DebugBundle/Resources/views</argument>
         <argument>Debug</argument>
       </call>
@@ -3144,14 +3163,41 @@
     </service>
     <service id="doctrine.dbal.default_connection.event_manager" class="Symfony\Bridge\Doctrine\ContainerAwareEventManager" public="false">
       <argument type="service" id="service_container"/>
-      <call method="addEventSubscriber">
-        <argument type="service" id="AppBundle\Event\ProfileEventSubscriber"/>
+      <call method="addEventListener">
+        <argument type="collection">
+          <argument>preUpdate</argument>
+        </argument>
+        <argument type="service" id="AppBundle\Event\ProfileEventListener"/>
       </call>
-      <call method="addEventSubscriber">
-        <argument type="service" id="AppBundle\Event\ProfileEventSubscriber"/>
+      <call method="addEventListener">
+        <argument type="collection">
+          <argument>prePersist</argument>
+        </argument>
+        <argument type="service" id="AppBundle\Event\ProfileEventListener"/>
       </call>
-      <call method="addEventSubscriber">
-        <argument type="service" id="AppBundle\Event\ProfileEventSubscriber"/>
+      <call method="addEventListener">
+        <argument type="collection">
+          <argument>postLoad</argument>
+        </argument>
+        <argument type="service" id="AppBundle\Event\ProfileEventListener"/>
+      </call>
+      <call method="addEventListener">
+        <argument type="collection">
+          <argument>preUpdate</argument>
+        </argument>
+        <argument type="service" id="RandomBundle\Event\UserEntitySubscriber"/>
+      </call>
+      <call method="addEventListener">
+        <argument type="collection">
+          <argument>postLoad</argument>
+        </argument>
+        <argument type="service" id="RandomBundle\Event\UserEntitySubscriber"/>
+      </call>
+      <call method="addEventListener">
+        <argument type="collection">
+          <argument>prePersist</argument>
+        </argument>
+        <argument type="service" id="RandomBundle\Event\UserEntitySubscriber"/>
       </call>
       <call method="addEventListener">
         <argument type="collection">
@@ -3318,6 +3364,7 @@
       <call method="setEntityNamespaces">
         <argument type="collection">
           <argument key="AppBundle">AppBundle\Entity</argument>
+          <argument key="RandomBundle">RandomBundle\Entity</argument>
         </argument>
       </call>
       <call method="setMetadataCacheImpl">
@@ -3364,12 +3411,17 @@
       <argument type="service" id="annotations.cached_reader"/>
       <argument type="collection">
         <argument>/home/konshensx/doctrine-form-events/src/AppBundle/Entity</argument>
+        <argument>/home/konshensx/doctrine-form-events/src/RandomBundle/Entity</argument>
       </argument>
     </service>
     <service id="doctrine.orm.default_metadata_driver" class="Doctrine\Common\Persistence\Mapping\Driver\MappingDriverChain" public="false">
       <call method="addDriver">
         <argument type="service" id="doctrine.orm.default_annotation_metadata_driver"/>
         <argument>AppBundle\Entity</argument>
+      </call>
+      <call method="addDriver">
+        <argument type="service" id="doctrine.orm.default_annotation_metadata_driver"/>
+        <argument>RandomBundle\Entity</argument>
       </call>
     </service>
     <service id="doctrine_cache.providers.doctrine.orm.default_metadata_cache" class="Doctrine\Common\Cache\ArrayCache" public="true">

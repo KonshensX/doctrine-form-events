@@ -36,8 +36,8 @@ services:
     file.manager:
         class: AppBundle\Managers\FileManager
 
-    AppBundle\Event\ProfileEventSubscriber:
+    AppBundle\Event\ProfileEventListener:
         tags:
-            - { name: doctrine.event_subscriber, event: prePersist }
-            - { name: doctrine.event_subscriber, event: preUpdate }
-            - { name: doctrine.event_subscriber, event: postLoad }
+            - { name: doctrine.event_listener, event: preUpdate }
+            - { name: doctrine.event_listener, event: prePersist }
+            - { name: doctrine.event_listener, event: postLoad }

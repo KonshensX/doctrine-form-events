@@ -95,9 +95,12 @@ class ProfileController extends Controller
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            $em->getConnection()->beginTransaction();
+
             $em->persist($profile);
             $em->flush();
 
+            $em->commit();
             return $this->redirectToRoute('profile_edit', array('id' => $profile->getId()));
         }
 

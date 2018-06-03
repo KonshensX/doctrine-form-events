@@ -47,6 +47,7 @@ class FileManager
         // Filesystem is quite usefull when it comes to dealing with files
         $filesystem = new Filesystem();
         $filesystem->remove($this->getUploadsDirectory() . '/' . $filename);
+        return true;
     }
 
     private function generateUniqueFilename()

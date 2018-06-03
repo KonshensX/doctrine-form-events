@@ -107,6 +107,92 @@ class appDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
 
         }
 
+        // random_default_index
+        if ('' === $trimmedPathinfo) {
+            $ret = array (  '_controller' => 'RandomBundle\\Controller\\DefaultController::indexAction',  '_route' => 'random_default_index',);
+            if ('/' === substr($pathinfo, -1)) {
+                // no-op
+            } elseif ('GET' !== $canonicalMethod) {
+                goto not_random_default_index;
+            } else {
+                return array_replace($ret, $this->redirect($rawPathinfo.'/', 'random_default_index'));
+            }
+
+            return $ret;
+        }
+        not_random_default_index:
+
+        if (0 === strpos($pathinfo, '/user')) {
+            // user_index
+            if ('/user' === $trimmedPathinfo) {
+                $ret = array (  '_controller' => 'RandomBundle\\Controller\\UserController::indexAction',  '_route' => 'user_index',);
+                if ('/' === substr($pathinfo, -1)) {
+                    // no-op
+                } elseif ('GET' !== $canonicalMethod) {
+                    goto not_user_index;
+                } else {
+                    return array_replace($ret, $this->redirect($rawPathinfo.'/', 'user_index'));
+                }
+
+                if (!in_array($canonicalMethod, array('GET'))) {
+                    $allow = array_merge($allow, array('GET'));
+                    goto not_user_index;
+                }
+
+                return $ret;
+            }
+            not_user_index:
+
+            // user_new
+            if ('/user/new' === $pathinfo) {
+                $ret = array (  '_controller' => 'RandomBundle\\Controller\\UserController::newAction',  '_route' => 'user_new',);
+                if (!in_array($canonicalMethod, array('GET', 'POST'))) {
+                    $allow = array_merge($allow, array('GET', 'POST'));
+                    goto not_user_new;
+                }
+
+                return $ret;
+            }
+            not_user_new:
+
+            // user_show
+            if (preg_match('#^/user/(?P<id>[^/]++)$#sD', $pathinfo, $matches)) {
+                $ret = $this->mergeDefaults(array_replace($matches, array('_route' => 'user_show')), array (  '_controller' => 'RandomBundle\\Controller\\UserController::showAction',));
+                if (!in_array($canonicalMethod, array('GET'))) {
+                    $allow = array_merge($allow, array('GET'));
+                    goto not_user_show;
+                }
+
+                return $ret;
+            }
+            not_user_show:
+
+            // user_edit
+            if (preg_match('#^/user/(?P<id>[^/]++)/edit$#sD', $pathinfo, $matches)) {
+                $ret = $this->mergeDefaults(array_replace($matches, array('_route' => 'user_edit')), array (  '_controller' => 'RandomBundle\\Controller\\UserController::editAction',));
+                if (!in_array($canonicalMethod, array('GET', 'POST'))) {
+                    $allow = array_merge($allow, array('GET', 'POST'));
+                    goto not_user_edit;
+                }
+
+                return $ret;
+            }
+            not_user_edit:
+
+            // user_delete
+            if (preg_match('#^/user/(?P<id>[^/]++)$#sD', $pathinfo, $matches)) {
+                $ret = $this->mergeDefaults(array_replace($matches, array('_route' => 'user_delete')), array (  '_controller' => 'RandomBundle\\Controller\\UserController::deleteAction',));
+                if (!in_array($requestMethod, array('DELETE'))) {
+                    $allow = array_merge($allow, array('DELETE'));
+                    goto not_user_delete;
+                }
+
+                return $ret;
+            }
+            not_user_delete:
+
+        }
+
         // homepage
         if ('' === $trimmedPathinfo) {
             $ret = array (  '_controller' => 'AppBundle\\Controller\\DefaultController::indexAction',  '_route' => 'homepage',);

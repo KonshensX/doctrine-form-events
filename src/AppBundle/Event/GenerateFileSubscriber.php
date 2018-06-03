@@ -45,7 +45,7 @@ class GenerateFileSubscriber implements EventSubscriberInterface
          */
         $data = $event->getData();
         $filename = $data->getProfilePicture();
-        if (is_null($filename))
+        if (is_null($filename) || $filename === "")
         {
             return false;
         }

@@ -1,3 +1,8 @@
+random:
+    resource: "@RandomBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 app:
     resource: '@AppBundle/Controller/'
     type: annotation
