@@ -34,9 +34,10 @@ services:
 #        arguments:
 #            $container: '@service_container'
     file.manager:
-        class: AppBundle\Manager\FileManager
+        class: AppBundle\Managers\FileManager
 
-    AppBundle\Event\GenerateFileSubscriber:
+    AppBundle\Event\ProfileEventSubscriber:
         tags:
             - { name: doctrine.event_subscriber, event: prePersist }
             - { name: doctrine.event_subscriber, event: preUpdate }
+            - { name: doctrine.event_subscriber, event: postLoad }

@@ -511,12 +511,16 @@
       <tag name="controller.service_arguments"/>
     </service>
     <service id="AppBundle\Event\GenerateFileSubscriber" class="AppBundle\Event\GenerateFileSubscriber" public="false" autowire="true" autoconfigure="true">
-      <tag name="doctrine.event_subscriber" event="prePersist"/>
-      <tag name="doctrine.event_subscriber" event="preUpdate"/>
+      <tag name="kernel.event_subscriber"/>
       <argument type="service" id="service_container"/>
       <argument type="service" id="AppBundle\Managers\FileManager"/>
     </service>
-    <service id="AppBundle\Event\ProfileEvent" class="AppBundle\Event\ProfileEvent" public="false" autowire="true" autoconfigure="true"/>
+    <service id="AppBundle\Event\ProfileEventSubscriber" class="AppBundle\Event\ProfileEventSubscriber" public="false" autowire="true" autoconfigure="true">
+      <tag name="doctrine.event_subscriber" event="prePersist"/>
+      <tag name="doctrine.event_subscriber" event="preUpdate"/>
+      <tag name="doctrine.event_subscriber" event="postLoad"/>
+      <argument type="service" id="AppBundle\Managers\FileManager"/>
+    </service>
     <service id="AppBundle\Form\ProfileType" class="AppBundle\Form\ProfileType" public="false" autowire="true" autoconfigure="true">
       <tag name="form.type"/>
       <argument type="service" id="service_container"/>
@@ -525,7 +529,9 @@
     <service id="AppBundle\Managers\FileManager" class="AppBundle\Managers\FileManager" public="false" autowire="true" autoconfigure="true">
       <argument type="service" id="service_container"/>
     </service>
-    <service id="file.manager" class="AppBundle\Manager\FileManager" public="false" autowire="true" autoconfigure="true"/>
+    <service id="file.manager" class="AppBundle\Managers\FileManager" public="false" autowire="true" autoconfigure="true">
+      <argument type="service" id="service_container"/>
+    </service>
     <service id="controller_name_converter" class="Symfony\Bundle\FrameworkBundle\Controller\ControllerNameParser" public="false">
       <tag name="monolog.logger" channel="request"/>
       <argument type="service" id="kernel"/>
@@ -1482,6 +1488,14 @@
         <argument>0</argument>
       </call>
       <call method="addListener">
+        <argument>form.pre_set_data</argument>
+        <argument type="collection">
+          <argument type="service" id="AppBundle\Event\GenerateFileSubscriber"/>
+          <argument>onPreSetData</argument>
+        </argument>
+        <argument>0</argument>
+      </call>
+      <call method="addListener">
         <argument>kernel.response</argument>
         <argument type="collection">
           <argument type="service" id="response_listener"/>
@@ -1619,6 +1633,14 @@
       </call>
       <call method="addListener">
         <argument>kernel.request</argument>
+        <argument type="collection">
+          <argument type="service" id="debug.debug_handlers_listener"/>
+          <argument>configure</argument>
+        </argument>
+        <argument>2048</argument>
+      </call>
+      <call method="addListener">
+        <argument>console.command</argument>
         <argument type="collection">
           <argument type="service" id="debug.debug_handlers_listener"/>
           <argument>configure</argument>
@@ -3131,10 +3153,13 @@
     <service id="doctrine.dbal.default_connection.event_manager" class="Symfony\Bridge\Doctrine\ContainerAwareEventManager" public="false">
       <argument type="service" id="service_container"/>
       <call method="addEventSubscriber">
-        <argument type="service" id="AppBundle\Event\GenerateFileSubscriber"/>
+        <argument type="service" id="AppBundle\Event\ProfileEventSubscriber"/>
       </call>
       <call method="addEventSubscriber">
-        <argument type="service" id="AppBundle\Event\GenerateFileSubscriber"/>
+        <argument type="service" id="AppBundle\Event\ProfileEventSubscriber"/>
+      </call>
+      <call method="addEventSubscriber">
+        <argument type="service" id="AppBundle\Event\ProfileEventSubscriber"/>
       </call>
       <call method="addEventListener">
         <argument type="collection">
@@ -3621,6 +3646,8 @@
     <service id="abstract.instanceof.AppBundle\Controller\DefaultController" class="AppBundle\Controller\DefaultController" public="true" autowire="true" autoconfigure="true" abstract="true"/>
     <service id="instanceof.Symfony\Bundle\FrameworkBundle\Controller\Controller.0.AppBundle\Controller\ProfileController" class="AppBundle\Controller\ProfileController" public="true" autowire="true" abstract="true"/>
     <service id="abstract.instanceof.AppBundle\Controller\ProfileController" class="AppBundle\Controller\ProfileController" public="true" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id="instanceof.Symfony\Component\EventDispatcher\EventSubscriberInterface.0.AppBundle\Event\GenerateFileSubscriber" class="AppBundle\Event\GenerateFileSubscriber" public="false" autowire="true" abstract="true"/>
+    <service id="abstract.instanceof.AppBundle\Event\GenerateFileSubscriber" class="AppBundle\Event\GenerateFileSubscriber" public="false" autowire="true" autoconfigure="true" abstract="true"/>
     <service id="instanceof.Symfony\Component\Form\FormTypeInterface.0.AppBundle\Form\ProfileType" class="AppBundle\Form\ProfileType" public="false" autowire="true" abstract="true"/>
     <service id="abstract.instanceof.AppBundle\Form\ProfileType" class="AppBundle\Form\ProfileType" public="false" autowire="true" autoconfigure="true" abstract="true"/>
     <service id="service_locator.el0s0en" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">

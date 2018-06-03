@@ -13,6 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Table(name="profile")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ProfileRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Profile
 {
@@ -57,6 +58,15 @@ class Profile
      */
     private $profilePicture;
 
+    /**
+     * @ORM\Column(name="updated_at", type="datetime", nullable=true)
+     */
+    private $updateAt;
+
+    public function __construct()
+    {
+        $this->updateAt = new \DateTime();
+    }
 
     /**
      * Get id
@@ -162,6 +172,31 @@ class Profile
     public function getProfilePicture()
     {
         return $this->profilePicture;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUpdateAt()
+    {
+        return $this->updateAt;
+    }
+
+    /**
+     * Sets the current whenever the record is updated
+     */
+    public function setUpdateAt()
+    {
+        $this->updateAt = new \DateTime();
+    }
+
+    /**
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
+     */
+    public function updateTimestamp()
+    {
+        $this->updateAt = new \DateTime();
     }
 
 
