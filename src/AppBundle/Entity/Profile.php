@@ -2,6 +2,8 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Utils\DomainObject;
+use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Doctrine\ORM\Mapping as ORM;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -15,7 +17,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ProfileRepository")
  * @ORM\HasLifecycleCallbacks()
  */
-class Profile
+class Profile extends DomainObject
 {
 
     /**
@@ -159,7 +161,11 @@ class Profile
      */
     public function setProfilePicture($profilePicture)
     {
-        $this->profilePicture = $profilePicture;
+        if ($this->profilePicture !== $profilePicture)
+        {
+            $this->onPropertyChanged('profilePicture', $this->profilePicture, $profilePicture);
+            $this->profilePicture = $profilePicture;
+        }
 
         return $this;
     }
@@ -184,20 +190,22 @@ class Profile
 
     /**
      * Sets the current whenever the record is updated
+     * @param $updatedAt
      */
-    public function setUpdateAt()
+    public function setUpdateAt($updatedAt)
     {
-        $this->updateAt = new \DateTime();
+        $this->updateAt = $updatedAt;
     }
 
     /**
      * @ORM\PrePersist()
      * @ORM\PreUpdate()
      */
-    public function updateTimestamp()
-    {
-        $this->updateAt = new \DateTime();
-    }
+//    public function updateTimestamp(PreUpdateEventArgs $args)
+//    {
+//        dump($args);
+//        $this->updateAt = new \DateTime();
+//    }
 
 
 }

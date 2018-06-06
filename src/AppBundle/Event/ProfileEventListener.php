@@ -63,7 +63,7 @@ class ProfileEventListener
      */
     public function preUpdate(PreUpdateEventArgs $args)
     {
-        dump("PreUpdate");
+
         dump($args->getEntityChangeSet());
         /// XXX: remove the old file if there's any
         /// SO in the preUpdate i only want to update the file if a file was uploaded

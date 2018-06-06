@@ -5,6 +5,7 @@ use AppBundle\Entity\Profile;
 use AppBundle\Managers\FileManager;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\HttpFoundation\File\File;
@@ -49,9 +50,9 @@ class GenerateFileSubscriber implements EventSubscriberInterface
         {
             return false;
         }
-        $file = new File(
-            $this->_fileManager->getUploadsDirectory() . '/' . $filename
-        );
+        $path = $this->_fileManager->getUploadsDirectory() . '/' . $filename;
+//        $filesystem = new Filesystem();
+        $file = new File($path);
 
         $newData = $data->setProfilePicture($file);
         $event->setData($newData);

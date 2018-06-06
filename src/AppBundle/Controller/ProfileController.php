@@ -95,6 +95,7 @@ class ProfileController extends Controller
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            $profile->setUpdateAt(new \DateTime());
             $em->getConnection()->beginTransaction();
 
             $em->persist($profile);

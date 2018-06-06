@@ -535,6 +535,7 @@
     <service id="AppBundle\Managers\FileManager" class="AppBundle\Managers\FileManager" public="false" autowire="true" autoconfigure="true">
       <argument type="service" id="service_container"/>
     </service>
+    <service id="AppBundle\Utils\DomainObject" class="AppBundle\Utils\DomainObject" public="false" autowire="true" autoconfigure="true"/>
     <service id="file.manager" class="AppBundle\Managers\FileManager" public="false" autowire="true" autoconfigure="true">
       <argument type="service" id="service_container"/>
     </service>
