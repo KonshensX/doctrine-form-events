@@ -23,7 +23,7 @@ class FileManager
      * @param UploadedFile $uploadedFile
      * @return null|string
      */
-    public function uploadFile(UploadedFile $uploadedFile): ?string
+    public function uploadFile(UploadedFile $uploadedFile)
     {
         if ($uploadedFile instanceof UploadedFile) {
             $filename = $this->generateUniqueFilename() . '.' . $uploadedFile->guessExtension();

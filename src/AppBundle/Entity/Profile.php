@@ -2,7 +2,7 @@
 
 namespace AppBundle\Entity;
 
-use AppBundle\Utils\DomainObject;
+use AppBundle\Utils\NotifierObject;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Doctrine\ORM\Mapping as ORM;
 use Psr\Container\ContainerInterface;
@@ -17,7 +17,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ProfileRepository")
  * @ORM\HasLifecycleCallbacks()
  */
-class Profile extends DomainObject
+class Profile extends NotifierObject
 {
 
     /**
