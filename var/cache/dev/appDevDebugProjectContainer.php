@@ -16,6 +16,6 @@ if (!\class_exists(appDevDebugProjectContainer::class, false)) {
 
 return new \ContainerMpmlxee\appDevDebugProjectContainer(array(
     'container.build_hash' => 'Mpmlxee',
-    'container.build_id' => '6e97a382',
-    'container.build_time' => 1528294801,
+    'container.build_id' => 'b6f72a61',
+    'container.build_time' => 1528299759,
 ), __DIR__.\DIRECTORY_SEPARATOR.'ContainerMpmlxee');

@@ -1,1 +1,3 @@
-The new filename is not being set in the database;
+So far the new file is being uploaded and the old file is being removed but the problem below remains.
+The new filename is not being updated in the database in the preUpdate event.
+Ok so i just needed to remove the die and let the script continue in order for the changes to reach the database

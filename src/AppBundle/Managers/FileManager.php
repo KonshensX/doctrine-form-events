@@ -44,9 +44,13 @@ class FileManager
      */
     public function removeFile($filename)
     {
+        if (is_null($filename) || empty($filename)) {
+            throw new \Exception("A file name must be provided to remove a file");
+        }
         // Filesystem is quite usefull when it comes to dealing with files
         $filesystem = new Filesystem();
         $filesystem->remove($this->getUploadsDirectory() . '/' . $filename);
+
         return true;
     }
 

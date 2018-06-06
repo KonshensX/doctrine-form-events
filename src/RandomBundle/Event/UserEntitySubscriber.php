@@ -16,19 +16,17 @@ class UserEntitySubscriber implements EventSubscriberInterface
 
     public function prePersist(LifecycleEventArgs $args)
     {
-        dump('prePersist');
-        dump($args);
+
     }
 
     public function postLoad(LifecycleEventArgs $args)
     {
-        dump("PostLoad");
+        
     }
 
     public function preUpdate(PreUpdateEventArgs $args)
     {
-        dump('PreUpdate from the UserSubscriber');
-        dump($args);
+        
     }
 
     /**

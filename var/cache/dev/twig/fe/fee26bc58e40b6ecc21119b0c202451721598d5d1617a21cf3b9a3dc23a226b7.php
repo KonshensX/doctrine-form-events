@@ -56,31 +56,41 @@ class __TwigTemplate_6210bde367ce7eadc34d9a1b309362293c35b1ab76670e2b029f52c1bb7
         // line 7
         echo $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->searchAndRenderBlock((isset($context["edit_form"]) ? $context["edit_form"] : $this->getContext($context, "edit_form")), 'widget');
         echo "
-        <label for=\"\" class=\"label label-primary\">";
+        ";
         // line 8
-        echo twig_escape_filter($this->env, $this->getAttribute($this->getAttribute($this->getAttribute((isset($context["edit_form"]) ? $context["edit_form"] : $this->getContext($context, "edit_form")), "vars", array()), "value", array()), "profilePicture", array()), "html", null, true);
-        echo "</label> <br>
-        <input type=\"submit\" value=\"Edit\" />
+        if ($this->getAttribute($this->getAttribute($this->getAttribute((isset($context["edit_form"]) ? $context["edit_form"] : $this->getContext($context, "edit_form")), "vars", array()), "value", array()), "profilePicture", array())) {
+            // line 9
+            echo "            <label for=\"\" class=\"label label-primary\">";
+            echo twig_escape_filter($this->env, $this->getAttribute($this->getAttribute($this->getAttribute((isset($context["edit_form"]) ? $context["edit_form"] : $this->getContext($context, "edit_form")), "vars", array()), "value", array()), "profilePicture", array()), "html", null, true);
+            echo "</label> <br>
+        ";
+        } else {
+            // line 11
+            echo "            <label class=\"label label-danger\">No files</label>
+        ";
+        }
+        // line 13
+        echo "        <input type=\"submit\" value=\"Edit\" />
     ";
-        // line 10
+        // line 14
         echo         $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->renderBlock((isset($context["edit_form"]) ? $context["edit_form"] : $this->getContext($context, "edit_form")), 'form_end');
         echo "
 
     <ul>
         <li>
             <a href=\"";
-        // line 14
+        // line 18
         echo $this->env->getExtension('Symfony\Bridge\Twig\Extension\RoutingExtension')->getPath("profile_index");
         echo "\">Back to the list</a>
         </li>
         <li>
             ";
-        // line 17
+        // line 21
         echo         $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->renderBlock((isset($context["delete_form"]) ? $context["delete_form"] : $this->getContext($context, "delete_form")), 'form_start');
         echo "
                 <input type=\"submit\" value=\"Delete\">
             ";
-        // line 19
+        // line 23
         echo         $this->env->getRuntime('Symfony\Component\Form\FormRenderer')->renderBlock((isset($context["delete_form"]) ? $context["delete_form"] : $this->getContext($context, "delete_form")), 'form_end');
         echo "
         </li>
@@ -106,7 +116,7 @@ class __TwigTemplate_6210bde367ce7eadc34d9a1b309362293c35b1ab76670e2b029f52c1bb7
 
     public function getDebugInfo()
     {
-        return array (  84 => 19,  79 => 17,  73 => 14,  66 => 10,  61 => 8,  57 => 7,  53 => 6,  49 => 4,  40 => 3,  11 => 1,);
+        return array (  94 => 23,  89 => 21,  83 => 18,  76 => 14,  73 => 13,  69 => 11,  63 => 9,  61 => 8,  57 => 7,  53 => 6,  49 => 4,  40 => 3,  11 => 1,);
     }
 
     /** @deprecated since 1.27 (to be removed in 2.0). Use getSourceContext() instead */
@@ -126,7 +136,11 @@ class __TwigTemplate_6210bde367ce7eadc34d9a1b309362293c35b1ab76670e2b029f52c1bb7
 
     {{ form_start(edit_form) }}
         {{ form_widget(edit_form) }}
-        <label for=\"\" class=\"label label-primary\">{{ edit_form.vars.value.profilePicture }}</label> <br>
+        {% if edit_form.vars.value.profilePicture %}
+            <label for=\"\" class=\"label label-primary\">{{ edit_form.vars.value.profilePicture }}</label> <br>
+        {% else %}
+            <label class=\"label label-danger\">No files</label>
+        {% endif %}
         <input type=\"submit\" value=\"Edit\" />
     {{ form_end(edit_form) }}
 

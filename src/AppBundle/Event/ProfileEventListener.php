@@ -50,10 +50,14 @@ class ProfileEventListener
         $args->getEntity()->setProfilePicture($filename);
     }
 
+    /**
+     *
+     * @todo
+     * 
+     */
     public function postLoad(LifecycleEventArgs $args)
     {
-        dump("PostLoad");
-        dump($args);
+        // throw new NotImplementedException("This function is not impelemented yet");
     }
 
     /**
@@ -67,19 +71,26 @@ class ProfileEventListener
         // getting the entity and checking if the file was changed??
         // but the file value is always changed 
         // actually not, after the file is hydrated we will always have a File instance 
+        // what 
         $args->getEntity();
-        dump($args->getEntityChangeSet());
+        dump($args);
         if ($args->hasChangedField('profilePicture')) {
             // not really sure if doctrine is checking this field too or just the db fields ???
             // don't need to check if the file instanceof UploadedFile already done in the _fileManager
-            // uploading the new file, and i need to remove the old file
-            $this->_fileManager->uploadFile($args->getEntityChangeSet()['profilePicture'][1]);
+            // uploading the new file
+            $oldfilename = $args->getOldValue('profilePicture'); // this is always null??
+            dump($oldfilename);
+
+            $newfilename = $this->_fileManager->uploadFile($args->getNewValue('profilePicture'));
+            dump($newfilename);
+            // settin' the new filename
+            // this, instead of getting the entity and callin the setProfilePicture
+            $args->setNewValue('profilePicture', $newfilename);
+            //i need to remove the old file
+            // only remove the old file if !== null, null means there's nothing to remove
+            if (!is_null($oldfilename)) {
+                $this->_fileManager->removeFile($oldfilename);
+            }
         }
-        /// XXX: remove the old file if there's any
-        /// SO in the preUpdate i only want to update the file if a file was uploaded
-        /// if it's null don't update the database with null value
-        /// Upload the new file after the removal of the old file
-        dump($args);
-        die;
     }
 }

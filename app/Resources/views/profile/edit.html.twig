@@ -5,7 +5,11 @@
 
     {{ form_start(edit_form) }}
         {{ form_widget(edit_form) }}
-        <label for="" class="label label-primary">{{ edit_form.vars.value.profilePicture }}</label> <br>
+        {% if edit_form.vars.value.profilePicture %}
+            <label for="" class="label label-primary">{{ edit_form.vars.value.profilePicture }}</label> <br>
+        {% else %}
+            <label class="label label-danger">No files</label>
+        {% endif %}
         <input type="submit" value="Edit" />
     {{ form_end(edit_form) }}
 
